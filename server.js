@@ -27,6 +27,12 @@ app.get('/product', (req, res) => {
 
 app.use(bodyParser.json());
 
+//add post method
+app.post('/product', (req, res) => {
+    collection.insertOne(req.body)
+        .then(result => {res.json('Success');})
+        .catch(error => console.error(error))
+})
 
 
 
