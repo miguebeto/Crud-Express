@@ -34,6 +34,22 @@ app.post('/product', (req, res) => {
         .catch(error => console.error(error))
 })
 
+app.put('/product/:id', (req, res) => {
+    collection.findOneAndUpdate({ name: req.params.id },
+        { $set: {
+                name: req.body.name,
+                price: req.body.price }},
+        {upsert: true})
+        .then(result => { res.json('Updated') })
+        .catch(error => console.error(error))
+
+}); 
+
+
+
+
+
+
 
 
 
