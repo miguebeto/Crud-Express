@@ -6,7 +6,9 @@ const bodyParser = require('body-parser');
 let db;
 let collection;
 
-app.listen(port,()=>{console.log(`listening on  ${port}`)}); // assigned port where it listens
+
+
+app.listen(port,()=>{console.log(`listening on port ${port}`)}); // assigned port where it listens
 //app.get('/', (req, res)=>{res.send('Hello World')});  // testing the server with get method
 
 MongoClient.connect('mongodb://localhost/crud-express', { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
@@ -16,24 +18,25 @@ MongoClient.connect('mongodb://localhost/crud-express', { useNewUrlParser: true,
     collection = db.collection('product'); 
 });
 
-//add crud methods
+app.use(bodyParser.json());
 
+//add crud methods
 //add get method
+
 app.get('/product', (req, res) => {
     db.collection('product').find().toArray()
         .then(results => {res.json(results); })
         .catch(error => console.error(error));
-})
-
-app.use(bodyParser.json());
+});
 
 //add post method
 app.post('/product', (req, res) => {
     collection.insertOne(req.body)
         .then(result => {res.json('Success');})
         .catch(error => console.error(error))
-})
+});
 
+//add put method
 app.put('/product/:id', (req, res) => {
     collection.findOneAndUpdate({ name: req.params.id },
         { $set: {
@@ -45,8 +48,14 @@ app.put('/product/:id', (req, res) => {
 
 }); 
 
-
-
+//add delete method
+app.delete('/product/:id', (req, res) => {
+    collection.deleteOne({ name: req.params.id } )
+        .then(result => {
+            res.json('Deleted')
+        })
+        .catch(error => console.error(error))
+});
 
 
 
