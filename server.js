@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
+const ejs = require('ejs');
 let db;
 let collection;
 
@@ -21,13 +22,22 @@ MongoClient.connect('mongodb://localhost/crud-express', { useNewUrlParser: true,
 app.use(bodyParser.json());
 
 //add crud methods
-//add get method
+//add get methods
 
 app.get('/product', (req, res) => {
     db.collection('product').find().toArray()
         .then(results => {res.json(results); })
         .catch(error => console.error(error));
 });
+
+app.get('/about', (req, res)=>{res.sendFile(__dirname + '/static/about.html')});
+app.get('/contact', (req, res)=>{ res.sendFile(__dirname + '/static/contact.html') });
+app.set('view engine', 'ejs')
+app.get('/signin', (req, res)=>{ res.render('signin')});
+app.get('/welcome-web', (req, res)=>{ res.render('welcome-web')});
+
+app.use(express.static('public'));
+
 
 //add post method
 app.post('/product', (req, res) => {
