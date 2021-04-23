@@ -30,13 +30,17 @@ app.get('/product', (req, res) => {
         .catch(error => console.error(error));
 });
 
+//sendfile without Middleware
 app.get('/about', (req, res)=>{res.sendFile(__dirname + '/static/about.html')});
 app.get('/contact', (req, res)=>{ res.sendFile(__dirname + '/static/contact.html') });
+
+//sign with template ejs
 app.set('view engine', 'ejs')
 app.get('/signin', (req, res)=>{ res.render('signin')});
 app.get('/welcome-web', (req, res)=>{ res.render('welcome-web')});
 
-app.use(express.static('public'));
+// Middleware Express for send files to clients
+app.use(express.static('public')); 
 
 
 //add post method
