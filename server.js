@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 //add get methods
 
 app.get('/product', (req, res) => {
-    db.collection('product').find().toArray()
+    db.collection('product').find({"nombre":"migue"}).toArray()
         .then(results => {res.json(results); })
         .catch(error => console.error(error));
 });
@@ -45,7 +45,7 @@ app.use(express.static('public'));
 
 //add post method
 app.post('/product', (req, res) => {
-    collection.insertOne(req.body)
+    collection.insert([{"nombre": "jose", "edad": 27}, {"nombre": "stephen", "edad": 26},{"nombre": "angel", "edad": 26}])
         .then(result => {res.json('Success');})
         .catch(error => console.error(error))
 });
